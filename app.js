@@ -176,6 +176,66 @@ function showMotivation() {
   document.body.appendChild(el);
   setTimeout(dismiss, 4500);
 }
+
+// ====== WELCOME POPUP (on app open) ======
+const WELCOME_SUBTITLES = [
+  "Сегодня ты станешь сильнее",
+  "Каждая тренировка — шаг к мечте",
+  "Ты уже молодец, что пришла",
+  "Сила в тебе. Покажи её!",
+  "Этот час — только для тебя",
+  "Ты сегодня себя удивишь",
+  "Будь сильной, будь красивой",
+  "Маленькие шаги, большие победы",
+  "Сегодня день твоей лучшей версии",
+  "Ты делаешь это для себя — и это прекрасно",
+  "Поверь в себя, как я в тебя верю",
+  "Твоё тело уже благодарит тебя",
+  "Любая тренировка лучше пропущенной",
+  "Ты ближе к цели, чем кажется",
+  "Будущая ты скажет тебе спасибо",
+];
+const WELCOME_BUTTONS = [
+  "Поехали!",
+  "Давай начнём!",
+  "Я готова!",
+  "Вперёд!",
+  "Полетели!",
+  "Идём тренироваться!",
+  "Начинаем!",
+];
+function showWelcome() {
+  const subtitle = WELCOME_SUBTITLES[Math.floor(Math.random() * WELCOME_SUBTITLES.length)];
+  const btn = WELCOME_BUTTONS[Math.floor(Math.random() * WELCOME_BUTTONS.length)];
+  const el = document.createElement("div");
+  el.className = "welcome-pop";
+  let dismissed = false;
+  const dismiss = () => {
+    if (dismissed) return;
+    dismissed = true;
+    el.classList.add("out");
+    setTimeout(() => el.remove(), 320);
+  };
+  el.innerHTML = `
+    <div class="welcome-card" role="dialog" aria-label="Приветствие">
+      <span class="welcome-spark s1">${icon("heartFill", 22)}</span>
+      <span class="welcome-spark s2">${icon("heartFill", 14)}</span>
+      <span class="welcome-spark s3">${icon("sparkle", 18)}</span>
+      <span class="welcome-spark s4">${icon("sparkle", 12)}</span>
+      <span class="welcome-spark s5">${icon("heartFill", 16)}</span>
+      <span class="welcome-spark s6">${icon("sparkle", 14)}</span>
+      <div class="welcome-icon">${icon("heartFill", 36)}</div>
+      <div class="welcome-title">Привет, Настюша!</div>
+      <div class="welcome-question">Готова тренироваться сегодня?</div>
+      <div class="welcome-subtitle">${esc(subtitle)}</div>
+      <button type="button" class="welcome-btn">${esc(btn)}</button>
+    </div>
+  `;
+  el.addEventListener("click", e => { if (e.target === el) dismiss(); });
+  el.querySelector(".welcome-btn").addEventListener("click", dismiss);
+  document.body.appendChild(el);
+}
+
 function mondayOf(d) {
   const x = new Date(d);
   const day = x.getDay() || 7;
@@ -1310,6 +1370,9 @@ $$("nav.bottom a[data-ico]").forEach(a => {
 
 // ====== BOOT ======
 route();
+// Greet the user every time the app opens — a small delay lets the route
+// render first so the popup feels layered on top of the app, not standalone.
+setTimeout(showWelcome, 220);
 // If there's an active session, keep screen awake
 if (state.activeSessionId) requestWakeLock();
 
