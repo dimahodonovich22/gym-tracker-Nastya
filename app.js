@@ -166,7 +166,7 @@ function showMotivation() {
   };
   el.innerHTML = `
     <div class="motivation-card" role="alert" aria-live="polite">
-      <div class="motivation-icon">${icon("party",22)}</div>
+      <div class="motivation-icon">${icon("heartFill",24)}</div>
       <div class="motivation-text">${esc(m.text)}</div>
       <button type="button" class="motivation-btn">${esc(m.btn)}</button>
     </div>
@@ -280,11 +280,14 @@ function renderHome(app) {
   app.innerHTML = `
     <header class="top">
       <div class="header-title">
-        <div class="logo">GT</div>
+        <div class="logo">${icon("heartFill", 20)}</div>
         <h1>GymTracker</h1>
       </div>
       <button class="btn sm ghost" onclick="location.hash='program'">Программа</button>
     </header>
+    <span class="heart-decor h1">${icon("heartFill", 28)}</span>
+    <span class="heart-decor h2">${icon("heartFill", 18)}</span>
+    <span class="heart-decor h3">${icon("heartFill", 22)}</span>
 
     ${active ? `
       <div class="card accent">
